@@ -1,5 +1,5 @@
-using OdinCMS.Data;
 using Microsoft.EntityFrameworkCore;
+using OdinCMS.DataAccess.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

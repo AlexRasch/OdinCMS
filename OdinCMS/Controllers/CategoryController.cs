@@ -1,7 +1,7 @@
-﻿using OdinCMS.Data;
-using OdinCMS.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OdinCMS.DataAccess.Data;
+using OdinCMS.Models;
 
 namespace OdinCMS.Controllers
 {

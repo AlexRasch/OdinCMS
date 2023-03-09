@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OdinCMS.Models;
 
-namespace OdinCMS.Data
+namespace OdinCMS.DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
     {
