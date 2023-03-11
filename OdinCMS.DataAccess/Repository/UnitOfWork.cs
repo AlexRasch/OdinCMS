@@ -1,5 +1,6 @@
 ﻿using OdinCMS.DataAccess.Data;
 using OdinCMS.DataAccess.Repository.IRepository;
+using OdinCMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace OdinCMS.DataAccess.Repository
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
+            Product = new ProductRepository(_db);
             Category = new CategoryRepository(_db);
             CoverType = new CoverTypeRepositroy(_db);
         }
 
+        public IProductRepository Product { get; private set; }
         public ICategoryRepository Category { get; private set; }
         public ICoverTypeRepository CoverType { get; private set; }
 

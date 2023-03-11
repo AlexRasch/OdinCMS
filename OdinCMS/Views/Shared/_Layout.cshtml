@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OdinCMS.styles.css" asp-append-version="true" />
-
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
           
 </head>
@@ -25,8 +24,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Admin</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="CoverType" asp-action="Index">CoverType</a>
+                            </div>
                         </li>
                     </ul>
                 </div>

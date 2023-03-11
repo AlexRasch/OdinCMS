@@ -1,0 +1,25 @@
+﻿@model CoverType
+
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Create</h1>
+
+<form method="post" asp-action="Delete">
+@*    <div asp-validation-summary="All"></div>*@
+    <input asp-for="Id" hidden />
+    <label asp-for="Name"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name"></span>
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

@@ -8,6 +8,9 @@ namespace OdinCMS.DataAccess.Repository.IRepository
 {
     public interface IUnitOfWork
     {
+
+
+        IProductRepository Product { get; }
         ICategoryRepository Category { get; }
         ICoverTypeRepository CoverType { get; }
 
