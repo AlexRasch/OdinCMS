@@ -2,8 +2,9 @@
 using OdinCMS.Models;
 using System.Diagnostics;
 
-namespace OdinCMS.Controllers
+namespace OdinCMS.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

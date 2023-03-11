@@ -4,8 +4,9 @@ using OdinCMS.DataAccess.Data;
 using OdinCMS.DataAccess.Repository.IRepository;
 using OdinCMS.Models;
 
-namespace OdinCMS.Controllers
+namespace OdinCMS.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -51,9 +52,9 @@ namespace OdinCMS.Controllers
             if (id == 0 || id == null)
                 return NotFound();
 
-            var categoryFromDb = _unitOfWork.Category.GetFirstOrDefault(u=> u.Id == id);
+            var categoryFromDb = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
 
-            if(categoryFromDb == null)
+            if (categoryFromDb == null)
                 return NotFound();
 
 
@@ -94,7 +95,7 @@ namespace OdinCMS.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int?  id)
+        public IActionResult DeletePost(int? id)
         {
             var obj = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
             if (obj == null)
