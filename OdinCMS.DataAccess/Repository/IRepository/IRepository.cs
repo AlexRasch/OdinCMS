@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OdinCMS.DataAccess.Repository.IRepository
 {
-    internal interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
         // Create
         void Create(T entity);
@@ -19,6 +19,9 @@ namespace OdinCMS.DataAccess.Repository.IRepository
         // Update
 
         // Delete
+        void Remove(T entity);
+        void RemoveRange(IEnumerable<T> entity);
+
 
     }
 }

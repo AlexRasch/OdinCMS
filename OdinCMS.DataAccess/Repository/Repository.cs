@@ -47,7 +47,7 @@ namespace OdinCMS.DataAccess.Repository
 
         public void RemoveRange(IEnumerable<T> entity)
         {
-            throw new NotImplementedException();
+            dbSet.RemoveRange(entity);
         }
     }
 }
