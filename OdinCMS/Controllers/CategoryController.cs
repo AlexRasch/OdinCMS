@@ -8,16 +8,16 @@ namespace OdinCMS.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _db;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CategoryController(ICategoryRepository db)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _db = db;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Category> objCategoryList = _db.GetAll();
+            IEnumerable<Category> objCategoryList = _unitOfWork.Category.GetAll();
             return View(objCategoryList);
 
         }
@@ -37,8 +37,8 @@ namespace OdinCMS.Controllers
             if (!ModelState.IsValid)
                 return View(obj);
 
-            _db.Create(obj);
-            _db.Save();
+            _unitOfWork.Category.Create(obj);
+            _unitOfWork.Save();
             TempData["success"] = "Category created successfully";
 
             return RedirectToAction("Index");
@@ -51,7 +51,7 @@ namespace OdinCMS.Controllers
             if (id == 0 || id == null)
                 return NotFound();
 
-            var categoryFromDb = _db.GetFirstOrDefault(u=> u.Id == id);
+            var categoryFromDb = _unitOfWork.Category.GetFirstOrDefault(u=> u.Id == id);
 
             if(categoryFromDb == null)
                 return NotFound();
@@ -69,8 +69,8 @@ namespace OdinCMS.Controllers
                 return View(obj);
 
 
-            _db.Update(obj);
-            _db.Save();
+            _unitOfWork.Category.Update(obj);
+            _unitOfWork.Save();
             TempData["success"] = "Category updated successfully";
             return RedirectToAction("Index");
 
@@ -82,7 +82,7 @@ namespace OdinCMS.Controllers
             if (id == 0 || id == null)
                 return NotFound();
 
-            var categoryFromDb = _db.GetFirstOrDefault(u => u.Id == id);
+            var categoryFromDb = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
 
             if (categoryFromDb == null)
                 return NotFound();
@@ -96,13 +96,13 @@ namespace OdinCMS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int?  id)
         {
-            var obj = _db.GetFirstOrDefault(u => u.Id == id);
+            var obj = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
             if (obj == null)
                 return NotFound();
 
 
-            _db.Remove(obj);
-            _db.Save();
+            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.Save();
             TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
 
