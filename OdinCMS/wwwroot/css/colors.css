@@ -1,0 +1,45 @@
+/* Colors */
+:root {
+    --theme-primary:#e51e2a;
+    --theme-secondary:#222;
+
+    /*  */
+    --theme-white:#fff;
+    --theme-bg-dark:#222;
+    --theme-bg-light:#fff;
+    /* Content */
+    --theme-h:#fff;
+    --theme-text:#fff;
+    --theme-link:#fff;
+    --theme-link-hover:var(--theme-primary);
+    --theme-text:#fff;
+}
+
+header h1,
+header h2,
+header h3,
+header p,
+section h1,
+section h2,
+section p,
+footer h3 {
+    color: #fff;
+}
+
+section a {
+    color:var(--theme-primary-white);
+    text-decoration: none;
+    border-bottom: 4px solid var(--theme-primary);
+}
+section a:hover {
+    color:var(--theme-primary);
+    text-decoration: none;
+    border-bottom: 4px solid var(--theme-white);
+    transition-duration: 0.5s;
+}
+
+.card-text {
+    color: black;
+}
+
+

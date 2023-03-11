@@ -1,0 +1,46 @@
+footer {
+    border-top: 5px solid var(--theme-primary);
+    padding-top: 20px;
+
+}
+
+footer .contain-fluid{
+    position: relative;
+    z-index: 100;
+}
+
+footer {
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+footer a {
+    color: var(--theme-link);
+}
+
+footer a:hover {
+    color: var(--theme-primary);
+}
+/* Social icons */
+.social-icons a {
+    display: inline-block;
+    background: #222;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    transition: 0.2s ease-in-out;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.social-icons a:hover {
+    background: var(--theme-primary);
+    transform: translateY(-10%);
+}
+
+.social-icons a img {
+    filter: brightness(0) invert(1);
+    transform: scale(0.5);
+}

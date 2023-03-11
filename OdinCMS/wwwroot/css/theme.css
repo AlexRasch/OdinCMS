@@ -1,0 +1,90 @@
+/*  Layout
+    https://getbootstrap.com/docs/5.0/layout/breakpoints/
+*/
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* sm */
+@media (max-width: 576px) {
+
+    header .container-fluid,
+    section .container-fluid,
+    footer .container-fluid {
+        padding: 16px 32px;
+    }
+
+    header .circle {
+        clip-path: circle(65% at right -25%);
+    }
+
+    .card-img-top {
+        max-height: 300px;
+        max-width: 240px;
+    } 
+}
+
+/* md */
+@media only screen and (max-width: 768px) and (min-width:577px) {
+
+    header .container-fluid,
+    section .container-fluid,
+    footer .container-fluid {
+        padding: 24px 40px;
+    }
+
+    header .circle {
+        clip-path: circle(65% at right -25%);
+    }
+}
+
+/* lg */
+@media only screen and (max-width: 1200px) and (min-width: 769px) {
+
+    header .container-fluid,
+    section .container-fluid,
+    footer .container-fluid {
+        padding: 32px 80px;
+    }
+
+    header .circle {
+        clip-path: circle(65% at right -25%);
+    }
+
+}
+
+/* xl */
+@media only screen and (max-width: 1400px) and (min-width: 1200px) {
+
+    header .container-fluid,
+    section .container-fluid,
+    footer .container-fluid {
+        padding: 40px 128px;
+    }
+
+    header .circle {
+        clip-path: circle(65% at right -25%);
+    }
+}
+
+/* xxl */
+@media only screen and (min-width: 1400px) {
+
+    header .container-fluid,
+    section .container-fluid,
+    footer .container-fluid {
+        padding: 20px 200px;
+    }
+
+    header .circle {
+        clip-path: circle(70% at right -20%);
+    }
+}
+
+
+/* Extra */
+.z-index-100 {
+    position: relative;
+    z-index: 100;
+}
