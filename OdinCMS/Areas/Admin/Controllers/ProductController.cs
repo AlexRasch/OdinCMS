@@ -20,15 +20,12 @@ namespace OdinCMS.Areas.Admin.Controllers
         {
             IEnumerable<Product> objProductList = _unitOfWork.Product.GetAll();
             return View(objProductList);
-
         }
 
         /* Create */
-
         public IActionResult Create()
         {
             return View();
-
         }
 
 
@@ -43,7 +40,6 @@ namespace OdinCMS.Areas.Admin.Controllers
             TempData["success"] = "Product created successfully";
 
             return RedirectToAction("Index");
-
         }
 
         /* Update */
@@ -57,9 +53,7 @@ namespace OdinCMS.Areas.Admin.Controllers
             if (productFromDb == null)
                 return NotFound();
 
-
             return View(productFromDb);
-
         }
 
 
@@ -68,7 +62,6 @@ namespace OdinCMS.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return View(obj);
-
 
             _unitOfWork.Product.Update(obj);
             _unitOfWork.Save();
@@ -88,9 +81,7 @@ namespace OdinCMS.Areas.Admin.Controllers
             if (productFromDb == null)
                 return NotFound();
 
-
             return View(productFromDb);
-
         }
 
         [HttpPost, ActionName("Delete")]
@@ -101,12 +92,10 @@ namespace OdinCMS.Areas.Admin.Controllers
             if (obj == null)
                 return NotFound();
 
-
             _unitOfWork.Product.Remove(obj);
             _unitOfWork.Save();
             TempData["success"] = "Product deleted successfully";
             return RedirectToAction("Index");
-
         }
 
     }
