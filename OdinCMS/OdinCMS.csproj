@@ -19,4 +19,8 @@
     <ProjectReference Include="..\OdinCMS.DataAccess\OdinCMS.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\img\" />
+  </ItemGroup>
+
 </Project>

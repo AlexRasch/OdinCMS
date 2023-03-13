@@ -1,0 +1,73 @@
+﻿@model OdinCMS.Models.ViewModels.ProductVM
+
+
+@{
+    ViewData["Title"] = Model.Product.Id !=0 ? "Update" : "Create" + " product";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+    @*    <div asp-validation-summary="All"></div>*@
+    <label asp-for="Product.Name"></label>
+    <input asp-for="Product.Name" class="form-control" />
+    <span asp-validation-for="Product.Name"></span>
+
+    <label asp-for="Product.Description"></label>
+    <textarea asp-for="Product.Description" rows="5" class="form-control"></textarea>
+    <span asp-validation-for="Product.Description"></span>
+
+    <label asp-for="Product.ListPrice"></label>
+    <input asp-for="Product.ListPrice" class="form-control" />
+    <span asp-validation-for="Product.ListPrice"></span>
+
+    <label asp-for="Product.Price"></label>
+    <input asp-for="Product.Price" class="form-control" />
+    <span asp-validation-for="Product.Price"></span>
+
+    <label asp-for="Product.ImageUrl"></label>
+    <input type="file"  id="elemUploadFile" name="file" class="form-control" />
+
+
+    <label asp-for="Product.CategoryId"></label>
+    <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select">
+        <option disabled selected>-- Select Category --</option>
+    </select>
+    <span asp-validation-for="Product.CategoryId"></span>
+
+    <label asp-for="Product.CoverTypeId"></label>
+    <select asp-for="Product.CoverTypeId" asp-items="@Model.CoverTypeList" class="form-select">
+        <option disabled selected>-- Select CoverType --</option>
+    </select>
+    <span asp-validation-for="Product.CoverTypeId"></span>
+
+    @if(Model.Product.Id != 0)
+    {
+        <button type="submit" class="btn btn-primary">@ViewData["Title"]</button>
+    }
+    else
+    {
+        <button type="submit" onclick="return ValidateInput()" class="btn btn-primary">@ViewData["Title"]</button>
+    }
+    
+
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        function ValidateInput(){
+            if (document.getElementById("elemUploadFile").value == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please upload a image'
+                })
+                return false;
+            }
+            return true;
+        }
+    </script>
+}

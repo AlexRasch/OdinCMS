@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OdinCMS.DataAccess.Data;
 using OdinCMS.DataAccess.Repository.IRepository;
 using OdinCMS.Models;
+using OdinCMS.Models.ViewModels;
+using System.Collections.Generic;
 
 namespace OdinCMS.Areas.Admin.Controllers
 {
@@ -10,10 +13,12 @@ namespace OdinCMS.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ProductController(IUnitOfWork unitOfWork)
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _hostEnvironment = hostEnvironment;
         }
 
         public async Task<IActionResult> Index()
@@ -22,48 +27,59 @@ namespace OdinCMS.Areas.Admin.Controllers
             return View(objProductList);
         }
 
-        /* Create */
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Create(Product obj)
-        {
-            if (!ModelState.IsValid)
-                return View(obj);
-
-            _unitOfWork.Product.Create(obj);
-            _unitOfWork.Save();
-            TempData["success"] = "Product created successfully";
-
-            return RedirectToAction("Index");
-        }
-
         /* Update */
-        public IActionResult Update(int? id)
+        public IActionResult Upsert(int? id)
         {
+            ProductVM productVM = new()
+            {
+                Product = new(),
+                CategoryList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
+                CoverTypeList = _unitOfWork.CoverType.GetAll().Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                })
+            };
+
+            // Create
             if (id == 0 || id == null)
+            {
+                return View(productVM);
+            }
+            // Update
+            else
+            {
                 return NotFound();
+            }
 
-            var productFromDb = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
-
-            if (productFromDb == null)
-                return NotFound();
-
-            return View(productFromDb);
         }
 
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Update(Product obj)
+        public IActionResult Upsert(ProductVM obj, IFormFile? file)
         {
             if (!ModelState.IsValid)
                 return View(obj);
 
-            _unitOfWork.Product.Update(obj);
+            string wwwRootPath = _hostEnvironment.WebRootPath;
+            if(file != null)
+            {
+                string fileName = Guid.NewGuid().ToString();
+                var upload = Path.Combine(wwwRootPath, @"uploads\img");
+                var fileExtension = Path.GetExtension(file.FileName);
+
+                using (var fileStream = new FileStream(Path.Combine(upload, fileName + fileExtension), FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+                obj.Product.ImageUrl = "\\uploads\\img\\" + fileName + fileExtension;
+            }
+
+            _unitOfWork.Product.Create(obj.Product);
             _unitOfWork.Save();
             TempData["success"] = "Product updated successfully";
             return RedirectToAction("Index");
