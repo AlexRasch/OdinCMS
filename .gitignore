@@ -361,4 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/OdinCMS/wwwroot/uploads/img
+/OdinCMS/wwwroot/uploads/img/

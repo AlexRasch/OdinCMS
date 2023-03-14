@@ -1,11 +1,20 @@
 ﻿<h1>Covertype List</h1>
 <a asp-controller="Product" asp-action="Upsert">Create new Product</a>
 
-<table class="table table-bordered">
+<table id="tblData" class="table table-bordered">
     <thead>
         <tr>
             <th>Name</th>
+            <th>Description</th>
+            <th>Listprice</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>CoverType</th>
             <th>Manage</th>
         </tr>
     </thead>
 </table>
+
+@section Scripts{
+    <script src="~/js/product.js"></script>
+}

@@ -23,6 +23,7 @@ namespace OdinCMS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+
             return View();
         }
 
@@ -52,8 +53,11 @@ namespace OdinCMS.Areas.Admin.Controllers
             // Update
             else
             {
-                return NotFound();
+                productVM.Product = _unitOfWork.Product.GetFirstOrDefault(i=> i.Id == id);
+
+                return View(productVM);
             }
+            
 
         }
 
@@ -71,14 +75,31 @@ namespace OdinCMS.Areas.Admin.Controllers
                 var upload = Path.Combine(wwwRootPath, @"uploads\img");
                 var fileExtension = Path.GetExtension(file.FileName);
 
+                // Product image already "exist"
+                if(obj.Product.ImageUrl != null)
+                {
+                    var oldImagePath = Path.Combine(wwwRootPath, obj.Product.ImageUrl.TrimStart('\\'));
+                    if(System.IO.File.Exists(oldImagePath))
+                        System.IO.File.Delete(oldImagePath);
+                }
+
+                // Copy uploaded image
                 using (var fileStream = new FileStream(Path.Combine(upload, fileName + fileExtension), FileMode.Create))
                 {
                     file.CopyTo(fileStream);
                 }
                 obj.Product.ImageUrl = "\\uploads\\img\\" + fileName + fileExtension;
             }
-
-            _unitOfWork.Product.Create(obj.Product);
+            // Add Product
+            if (obj.Product.Id == 0)
+            {
+                _unitOfWork.Product.Create(obj.Product);
+            }
+            // Update existing
+            else
+            {
+                _unitOfWork.Product.Update(obj.Product);
+            }
             _unitOfWork.Save();
             TempData["success"] = "Product updated successfully";
             return RedirectToAction("Index");
@@ -112,11 +133,12 @@ namespace OdinCMS.Areas.Admin.Controllers
             TempData["success"] = "Product deleted successfully";
             return RedirectToAction("Index");
         }
+
         #region API calls
         [HttpGet]
         public IActionResult GetAll()
         {
-            var productList = _unitOfWork.Product.GetAll();
+            var productList = _unitOfWork.Product.GetAll(includeProperties:"Category,CoverType");
             return Json(new { data = productList } );
         }
         #endregion

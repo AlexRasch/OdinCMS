@@ -6,9 +6,10 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-
+<img src="@Model.Product.ImageUrl" />
 <form method="post" asp-action="Upsert" enctype="multipart/form-data">
-    @*    <div asp-validation-summary="All"></div>*@
+    <input asp-for="Product.Id" hidden />
+    <input asp-for="Product.ImageUrl" hidden />
     <label asp-for="Product.Name"></label>
     <input asp-for="Product.Name" class="form-control" />
     <span asp-validation-for="Product.Name"></span>
