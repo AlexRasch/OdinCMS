@@ -33,7 +33,7 @@ namespace OdinCMS.Models
         public Category Category { get; set; }
         
         [DisplayName("Cover type Id")]
-        public int CoverTypeId { get; set; }
+        public int ?CoverTypeId { get; set; }
         
         [ValidateNever, DisplayName("Cover type")]
         public CoverType CoverType { get; set; }
