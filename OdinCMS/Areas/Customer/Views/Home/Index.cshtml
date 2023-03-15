@@ -1,8 +1,79 @@
-﻿@{
+﻿@model IEnumerable<OdinCMS.Models.Product>
+
+@{
     ViewData["Title"] = "Home Page";
 }
+<div class="container-fluid pb-5 mt-lg-5">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-6">
+            <h1 class="z-index-100">Lorum Ipsum</h1>
+            <p class="z-index-100">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae delectus adipisci porro dicta
+                dolorem! Amet aliquid numquam nam. Nemo incidunt at vero perspiciatis delectus sequi suscipit
+                quos, debitis fugiat voluptates.
+            </p>
+            <p class="z-index-100">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius impedit reprehenderit quisquam.
+                Aliquam quas, aperiam quos, illum quam nemo quidem neque culpa ipsa nesciunt et voluptatem
+                necessitatibus dolorum similique officia.
+            </p>
+            <div class="d-grid gap-2 d-md-block">
+                <a class="btn btn-danger btn-lg btn-cta" href="#">Ipsum ipsum</a>
+            </div>
+        </div>
+        @* Swipper *@
+        <div class="col-sm-12 col-md-12 col-lg-6">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+                        @foreach (var product in Model.Take(3))
+                        {
+                            <div class="swiper-slide">
+                                <picture>
+                                    <img src="@product.ImageUrl" alt="@product.Name"/>
+                                </picture>
+                            </div>
+                        }
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        @* Swipper End *@
+    </div>
 </div>
+
+<section class="bg-dark" id="sectionProducts">
+    <div class="container-fluid">
+        <div class="row">
+            <h2>Products</h2>
+            @foreach (var product in Model)
+            {
+             <div class="col-sm-12 col-md-6 col-xl-3">
+                <div class="card mb-3" style="max-width:100%;">
+                    <picture>
+                        @*<source media="(max-width: 768px)" srcset="assets/images/1.png" />
+                        <source media="(min-width: 769px)" srcset="assets/images/1_.png" />*@
+                        <img src="@product.ImageUrl" class="card-img-top mx-auto d-block" alt="@product.Name" />
+                    </picture>
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text color-black">
+                            @product.Description
+                        </p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">@product.Category.Name</li>
+                        <li class="list-group-item">Price: @product.Price</li>
+                    </ul>
+                    <div class="card-body d-grid gap-2">
+                        <a href="#" class="btn btn-lg btn-success">View</a>
+                        <a href="#" class="btn btn-lg btn-danger">Add to cart</a>
+                    </div>
+                </div>
+            </div>
+            }
+
+        </div>
+    </div>
+</section>

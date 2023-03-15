@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OdinCMS.DataAccess.Repository.IRepository;
 using OdinCMS.Models;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace OdinCMS.Areas.Customer.Controllers
@@ -8,15 +10,19 @@ namespace OdinCMS.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUnitOfWork unitOfWork,ILogger<HomeController> logger)
         {
+            _unitOfWork = unitOfWork;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties:"Category,CoverType");
+
+            return View(productList);
         }
 
         public IActionResult Privacy()
