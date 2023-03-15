@@ -73,12 +73,13 @@ html {
 
     header .container-fluid,
     section .container-fluid,
+    .container-fluid,
     footer .container-fluid {
         padding: 20px 200px;
     }
 
     header .circle {
-        clip-path: circle(70% at right -20%);
+        clip-path: circle(60% at right -30%);
     }
 }
 
