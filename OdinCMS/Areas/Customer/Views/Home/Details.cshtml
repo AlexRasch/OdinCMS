@@ -1,0 +1,21 @@
+﻿@model OdinCMS.Models.ShoppingCart
+
+<section class="bg-dark" id="sectionProduct">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <img src="@Model.Product.ImageUrl" alt="@Model.Product.ImageUrl" class="img-fluid z-index-100" />
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <h1 class="z-index-100">@Model.Product.Name</h1>
+                <p class="z-index-100">@Model.Product.Description</p>
+                <p class="z-index-100">Category: <span class="badge bg-success border border-dark">@Model.Product.Category.Name</span></p>
+                <p class="z-index-100">Price: @Model.Product.ListPrice</p>
+                <button type="submit" class="btn btn-success">Add to cart</button>
+                <a asp-action="Index" class="btn btn-danger">Back to products</a>
+
+
+            </div>
+        </div>
+    </div>
+</section>

@@ -26,13 +26,13 @@ footer h3 {
     color: #fff;
 }
 
-section a {
+section a #special-link{
     color:var(--theme-primary-white);
     text-decoration: none;
     border-bottom: 4px solid var(--theme-primary);
 }
-section a:hover {
-    color:var(--theme-primary);
+section a:hover #special-link {
+    color: var(--theme-primary);
     text-decoration: none;
     border-bottom: 4px solid var(--theme-white);
     transition-duration: 0.5s;
