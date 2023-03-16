@@ -1,0 +1,19 @@
+﻿<h1>Company List</h1>
+<a asp-controller="Company" asp-action="Upsert">Create new Company</a>
+
+<table id="tblData" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Street address</th>
+            <th>City</th>
+            <th>Region</th>
+            <th>Postal code</th>
+            <th>Phone number</th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts{
+    <script src="~/js/company.js"></script>
+}
