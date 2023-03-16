@@ -11,9 +11,12 @@ namespace OdinCMS.DataAccess.Data
             
         }
 
-
+        /* Products */
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CoverType> CoverTypes { get; set; }
+
+        /* Customer / User */
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 }
