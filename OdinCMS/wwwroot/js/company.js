@@ -11,35 +11,23 @@ function loadDataTable() {
             "url":"/Admin/Company/GetAll"
         },
         "columns": [
-            { "data": "name", "width": "15%" },
-            { "data": "description", "width": "15%" },
-            { "data": "listPrice", "width": "15%" },
-            { "data": "price", "width": "15%" },
-            { "data": "category.name", "width": "15%" },
-            /*{ "data": "coverType.name", "width": "15%" },*/
-            {
-                "data": "coverType",
-                "render": function (data) {
-                    if (data === null) {
-                        return 'None';
-                    } else {
-                        console.log(data);
-                        return data.name;
-                    }
-                }, 
-                "width": "15%"
-            },
+            { "data": "name", "width": "10%" },
+            { "data": "streetAddress", "width": "10%" },
+            { "data": "city", "width": "10%" },
+            { "data": "region", "width": "10%" },
+            { "data": "postalCode", "width": "10%" },
+            { "data": "phoneNumber", "width": "10%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                     <div class="btn-group" role="group">
-                        <a href="/Admin/Product/Upsert?id=${data}" class="btn btn-primary">Edit</a>
-                        <a onClick=Delete('/Admin/Product/Delete/'+${data}) class="btn btn-danger">Delete</a>
+                        <a href="/Admin/Company/Upsert?id=${data}" class="btn btn-primary">Edit</a>
+                        <a onClick=Delete('/Admin/Company/Delete/'+${data}) class="btn btn-danger">Delete</a>
                     </div>
                     `
                 },
-                "width": "15%"
+                "width": "20%"
             },
 
         ]

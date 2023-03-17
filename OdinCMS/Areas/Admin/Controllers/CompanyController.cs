@@ -39,7 +39,6 @@ namespace OdinCMS.Areas.Admin.Controllers
             else
             {
                 company = _unitOfWork.Company.GetFirstOrDefault(i=> i.Id == id);
-
                 return View(company);
             }
         }
@@ -85,7 +84,7 @@ namespace OdinCMS.Areas.Admin.Controllers
 
             _unitOfWork.Company.Remove(obj);
             _unitOfWork.Save();
-            return Json(new { success = true, message = "Successfully: deleted product" });
+            return Json(new { success = true, message = "Successfully: deleted company" });
         }
         #endregion
     }
