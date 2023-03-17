@@ -18,11 +18,16 @@ namespace OdinCMS.DataAccess.Repository
             Product = new ProductRepository(_db);
             Category = new CategoryRepository(_db);
             CoverType = new CoverTypeRepositroy(_db);
+            Company = new CompanyRepository(_db);
         }
 
+        /* Products */
         public IProductRepository Product { get; private set; }
         public ICategoryRepository Category { get; private set; }
         public ICoverTypeRepository CoverType { get; private set; }
+
+        /* User / Company */
+        public ICompanyRepository Company { get; private set; }
 
 
         public void Save()
