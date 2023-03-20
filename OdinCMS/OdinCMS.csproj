@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OdinCMS.DataAccess\OdinCMS.DataAccess.csproj" />
+    <ProjectReference Include="..\OdinCMS.Utility\OdinCMS.Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>

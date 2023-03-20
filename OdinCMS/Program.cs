@@ -3,6 +3,8 @@ using OdinCMS.DataAccess.Data;
 using OdinCMS.DataAccess.Repository;
 using OdinCMS.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using OdinCMS.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,10 +15,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     ));
 
 // Identity
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+// Fake email
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
+// 
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
