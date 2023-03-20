@@ -15,11 +15,19 @@ namespace OdinCMS.DataAccess.Repository
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
+
             Product = new ProductRepository(_db);
             Category = new CategoryRepository(_db);
             CoverType = new CoverTypeRepositroy(_db);
+            
             Company = new CompanyRepository(_db);
+            ApplicationUser = new ApplicationUserRepository(_db);
+            ShoppingCart = new ShoppingCartRepository(_db);
+
         }
+
+        /* Cart */
+        public IShoppingCartRepository ShoppingCart { get; private set; }
 
         /* Products */
         public IProductRepository Product { get; private set; }
@@ -28,6 +36,7 @@ namespace OdinCMS.DataAccess.Repository
 
         /* User / Company */
         public ICompanyRepository Company { get; private set; }
+        public IApplicationUserRepository ApplicationUser { get; private set; }
 
 
         public void Save()
