@@ -14,6 +14,9 @@ namespace OdinCMS.DataAccess.Repository.IRepository
         IProductRepository Product { get; }
         ICategoryRepository Category { get; }
         ICoverTypeRepository CoverType { get; }
+        /* Order */
+        IOrderDetailRepository OrderDetail { get; }
+        IOrderHeaderRepository OrderHeader { get; }
 
         /* User & Company */
         ICompanyRepository Company { get; }
