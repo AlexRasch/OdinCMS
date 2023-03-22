@@ -22,5 +22,17 @@ namespace OdinCMS.DataAccess.Repository
         {
             _db.ShoppingCarts.Update(obj);
         }
+
+        public int IncrementCount(ShoppingCart shoppingCart, int count)
+        {
+            shoppingCart.Count += count;
+            return shoppingCart.Count;
+        }
+
+        public int DecementCount(ShoppingCart shoppingCart, int count)
+        {
+            shoppingCart.Count -= count;
+            return shoppingCart.Count;
+        }
     }
 }

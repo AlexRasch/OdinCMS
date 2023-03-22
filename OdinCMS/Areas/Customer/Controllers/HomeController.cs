@@ -46,9 +46,20 @@ namespace OdinCMS.Areas.Customer.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             shoppingCart.ApplicationUserId = claim.Value;
 
-            _unitOfWork.ShoppingCart.Update(shoppingCart);
-            _unitOfWork.Save();
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(
+                u=>u.ApplicationUserId == claim.Value && u.ProductId == shoppingCart.ProductId
+                );
 
+            if(cartFromDb == null)
+            {
+                _unitOfWork.ShoppingCart.Update(shoppingCart);
+            }
+            else
+            {
+                _unitOfWork.ShoppingCart.IncrementCount(cartFromDb, shoppingCart.Count);
+            }
+
+            _unitOfWork.Save();
 
             return RedirectToAction("Index");
         }
