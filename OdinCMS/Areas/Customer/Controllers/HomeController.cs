@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OdinCMS.DataAccess.Repository.IRepository;
 using OdinCMS.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace OdinCMS.Areas.Customer.Controllers
 {
@@ -25,15 +27,41 @@ namespace OdinCMS.Areas.Customer.Controllers
             return View(productList);
         }
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int productId)
         {
             ShoppingCart cartObj = new()
             {
                 Count = 1,
-                Product = _unitOfWork.Product.GetFirstOrDefault(product => product.Id == id, includeProperties: "Category,CoverType")
+                ProductId = productId,
+                Product = _unitOfWork.Product.GetFirstOrDefault(product => product.Id == productId, includeProperties: "Category,CoverType")
             };
 
             return View(cartObj);
+        }
+
+        [HttpPost, ActionName("Details"), ValidateAntiForgeryToken, Authorize]
+        public IActionResult DetailsPOST(ShoppingCart shoppingCart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            shoppingCart.ApplicationUserId = claim.Value;
+
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(
+                u=>u.ApplicationUserId == claim.Value && u.ProductId == shoppingCart.ProductId
+                );
+
+            if(cartFromDb == null)
+            {
+                _unitOfWork.ShoppingCart.Update(shoppingCart);
+            }
+            else
+            {
+                _unitOfWork.ShoppingCart.IncrementCount(cartFromDb, shoppingCart.Count);
+            }
+
+            _unitOfWork.Save();
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

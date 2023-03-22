@@ -14,7 +14,7 @@ namespace OdinCMS.DataAccess.Repository.IRepository
         void Create(T entity);
         // Read 
         T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null); 
-        IEnumerable<T> GetAll(string? includeProperties = null);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, string? includeProperties = null);
 
         // Update
 

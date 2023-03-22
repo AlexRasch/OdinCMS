@@ -8,7 +8,8 @@ namespace OdinCMS.DataAccess.Repository.IRepository
 {
     public interface IUnitOfWork
     {
-
+        /* Cart */
+        IShoppingCartRepository ShoppingCart { get; }
         /* Product  */
         IProductRepository Product { get; }
         ICategoryRepository Category { get; }
@@ -16,7 +17,7 @@ namespace OdinCMS.DataAccess.Repository.IRepository
 
         /* User & Company */
         ICompanyRepository Company { get; }
-
+        IApplicationUserRepository ApplicationUser { get; }
 
         void Save();
     }
