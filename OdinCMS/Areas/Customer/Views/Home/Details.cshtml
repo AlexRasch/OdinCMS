@@ -11,10 +11,18 @@
                 <p class="z-index-100">@Model.Product.Description</p>
                 <p class="z-index-100">Category: <span class="badge bg-success border border-dark">@Model.Product.Category.Name</span></p>
                 <p class="z-index-100">Price: @Model.Product.ListPrice</p>
-                <button type="submit" class="btn btn-success">Add to cart</button>
-                <a asp-action="Index" class="btn btn-danger">Back to products</a>
-
-
+                <form method="post">
+                    <input hidden asp-for="ProductId" />
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-success text-white border-0 fw-semibold"
+                              id="inputGroup-sizing-default">
+                            Count
+                        </span>
+                        <input asp-for="Count" type="number" value="1" class="form-control text-end" />
+                    </div>
+                    <button type="submit" class="btn btn-success">Add to cart</button>
+                    <a asp-action="Index" class="btn btn-danger">Back to products</a>
+                </form>
             </div>
         </div>
     </div>

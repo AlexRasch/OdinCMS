@@ -22,6 +22,11 @@ namespace OdinCMS.DataAccess.Repository
             this.dbSet = _db.Set<T>();
         }
 
+        public void Add(T entity)
+        {
+            Create(entity);
+        }
+
         public void Create(T entity)
         {
 

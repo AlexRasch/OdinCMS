@@ -23,6 +23,8 @@ namespace OdinCMS.Models
         public int Count { get; set; }
 
         // User details
+        public string ApplicationUserId { get; set; }
+        
         [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUser { get; set; }
     }

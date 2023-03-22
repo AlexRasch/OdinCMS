@@ -18,9 +18,9 @@ namespace OdinCMS.DataAccess.Repository
             _db = db;
         }
 
-        //public void Update(Category obj)
-        //{
-        //    _db.Categories.Update(obj);
-        //}
+        public void Update(ShoppingCart obj)
+        {
+            _db.ShoppingCarts.Update(obj);
+        }
     }
 }
