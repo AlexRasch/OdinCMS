@@ -51,7 +51,12 @@ namespace OdinCMS.Areas.Customer.Controllers
         public IActionResult Minus(int cartId)
         {
             var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(u => u.Id == cartId);
-            _unitOfWork.ShoppingCart.IncrementCount(cart, -1);
+            
+            if(cart.Count <= 1)
+                _unitOfWork.ShoppingCart.Remove(cart);
+            else
+                _unitOfWork.ShoppingCart.IncrementCount(cart, -1);
+
             _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
