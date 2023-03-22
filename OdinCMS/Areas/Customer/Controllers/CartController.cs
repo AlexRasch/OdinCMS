@@ -39,6 +39,34 @@ namespace OdinCMS.Areas.Customer.Controllers
 			return View(ShoppingCartVM);
         }
 
+        public IActionResult Plus(int cartId)
+        {
+            var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(u => u.Id == cartId);
+            _unitOfWork.ShoppingCart.IncrementCount(cart, 1);
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Minus(int cartId)
+        {
+            var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(u => u.Id == cartId);
+            _unitOfWork.ShoppingCart.IncrementCount(cart, -1);
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [ActionName("Remove")]
+        public IActionResult DeleteFromCart(int cartId)
+        {
+            var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(u => u.Id == cartId);
+            _unitOfWork.ShoppingCart.Remove(cart);
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private double GetPriceBased(double quantity, double price)
         {
             return price * quantity;
