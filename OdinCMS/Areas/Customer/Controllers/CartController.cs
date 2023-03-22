@@ -30,7 +30,18 @@ namespace OdinCMS.Areas.Customer.Controllers
                 ListCart = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value, includeProperties: "Product")
             };
 
+            foreach (var cart in ShoppingCartVM.ListCart)
+            {
+                cart.Price = GetPriceBased(cart.Count, cart.Product.Price);
+                ShoppingCartVM.CartTotal += (cart.Price * cart.Count);
+            }
+
 			return View(ShoppingCartVM);
+        }
+
+        private double GetPriceBased(double quantity, double price)
+        {
+            return price * quantity;
         }
     }
 }

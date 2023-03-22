@@ -22,6 +22,12 @@ namespace OdinCMS.Models
         [Range(1, 100, ErrorMessage = "Please enter a value between 1 and 1000")]
         public int Count { get; set; }
 
+        /// <summary>
+        /// Total cost of cart
+        /// </summary>
+        [NotMapped]
+        public double Price { get; set; }
+
         // User details
         public string ApplicationUserId { get; set; }
         
