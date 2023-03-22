@@ -20,6 +20,7 @@ namespace OdinCMS.Areas.Customer.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+
         public IActionResult Index()
         {
 			var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -37,6 +38,11 @@ namespace OdinCMS.Areas.Customer.Controllers
             }
 
 			return View(ShoppingCartVM);
+        }
+
+        public IActionResult Summary()
+        {
+            return View();
         }
 
         public IActionResult Plus(int cartId)
