@@ -33,7 +33,6 @@ namespace OdinCMS.Models
         public string? Carrier { get; set; }
 
         // Payment
-
         public DateTime PaymentDate { get; set; }
 
         public DateTime PaymentDueDate { get; set; }

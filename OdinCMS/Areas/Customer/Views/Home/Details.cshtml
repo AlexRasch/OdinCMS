@@ -1,4 +1,8 @@
 ﻿@model OdinCMS.Models.ShoppingCart
+@{
+    ViewData["Title"] = "Cart";
+    ViewData["MetaDesc"] = @Model.Product.Description;
+}
 
 <section class="bg-dark" id="sectionProduct">
     <div class="container-fluid">
