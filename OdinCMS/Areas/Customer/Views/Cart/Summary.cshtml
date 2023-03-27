@@ -1,4 +1,6 @@
 ﻿@model OdinCMS.Models.ViewModels.ShoppingCartVM
+@using Microsoft.Extensions.Options
+@inject IOptions<OdinCMS.Utility.StripeSettings> Stripe
 
 <form method="post">
     <div class="container-fluid bg-dark">

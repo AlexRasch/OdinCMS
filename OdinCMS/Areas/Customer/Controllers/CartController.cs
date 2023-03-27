@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.ComponentModel;
 
 using OdinCMS.DataAccess.Repository.IRepository;
 using OdinCMS.Models;
 using OdinCMS.Models.ViewModels;
-using System.ComponentModel;
 using OdinCMS.Utility;
+
+using Stripe.Checkout;
 
 namespace OdinCMS.Areas.Customer.Controllers
 {
@@ -25,8 +27,8 @@ namespace OdinCMS.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-			var claimsIdentity = (ClaimsIdentity)User.Identity;
-			var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             ShoppingCartVM = new ShoppingCartVM()
             {
@@ -40,7 +42,7 @@ namespace OdinCMS.Areas.Customer.Controllers
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
 
-			return View(ShoppingCartVM);
+            return View(ShoppingCartVM);
         }
 
         public IActionResult Summary()
@@ -57,7 +59,7 @@ namespace OdinCMS.Areas.Customer.Controllers
             // User details
             ShoppingCartVM.OrderHeader.ApplicationUser =
                 _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == claim.Value);
-            
+
             ShoppingCartVM.OrderHeader.Name = ShoppingCartVM.OrderHeader.ApplicationUser.Name;
             ShoppingCartVM.OrderHeader.PhoneNumber = ShoppingCartVM.OrderHeader.ApplicationUser.PhoneNumber;
             ShoppingCartVM.OrderHeader.StreetAddress = ShoppingCartVM.OrderHeader.ApplicationUser.StreetAddress;
@@ -111,10 +113,65 @@ namespace OdinCMS.Areas.Customer.Controllers
                 _unitOfWork.OrderDetail.Create(orderDetail);
                 _unitOfWork.Save();
             }
-            _unitOfWork.ShoppingCart.RemoveRange(ShoppingCartVM.ListCart);
+
+            // Stripe settings
+            var domain = @"https://localhost:44344/";
+            var options = new SessionCreateOptions
+            {
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+                SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                CancelUrl = domain + $"customer/cart/index",
+            };
+
+            foreach (var item in ShoppingCartVM.ListCart)
+            {
+                var sessionLineItem = new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        UnitAmount = (long)(item.Price * 100), // Stripe price is in cents, so price * 100
+                        Currency = "usd",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = item.Product.Name,
+                        },
+                    },
+                    Quantity = item.Count,
+                };
+                options.LineItems.Add(sessionLineItem);
+            }
+
+            var service = new SessionService();
+            Session session = service.Create(options);
+            _unitOfWork.OrderHeader.UpdateStripePaymentId(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
             _unitOfWork.Save();
 
-            return RedirectToAction(nameof(Index));
+            Response.Headers.Add("Location", session.Url);
+            return new StatusCodeResult(303);
+        }
+
+        public IActionResult OrderConfirmation(int id)
+        {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == id);
+            var service = new SessionService();
+            Session session = service.Get(orderHeader.SessionId);
+            
+            // Check stripe status
+            if(session.PaymentStatus.ToLower() == "paid")
+            {
+                _unitOfWork.OrderHeader.UpdateStatus(id, SD.Order_Approved, SD.Payment_Approved);
+                _unitOfWork.Save();
+            }
+
+            List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart
+                .GetAll(x => x.ApplicationUserId == orderHeader.ApplicationUserId)
+                .ToList();
+            
+            _unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
+            _unitOfWork.Save();
+
+            return View(id);
         }
 
         public IActionResult Plus(int cartId)
