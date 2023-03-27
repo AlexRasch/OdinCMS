@@ -16,13 +16,18 @@ namespace OdinCMS.DataAccess.Repository
         {
             _db = db;
 
+            ShoppingCart = new ShoppingCartRepository(_db);
+
             Product = new ProductRepository(_db);
             Category = new CategoryRepository(_db);
             CoverType = new CoverTypeRepositroy(_db);
             
+            OrderDetail = new OrderDetailRepository(_db);
+            OrderHeader = new OrderheaderRepository(_db);
+
             Company = new CompanyRepository(_db);
             ApplicationUser = new ApplicationUserRepository(_db);
-            ShoppingCart = new ShoppingCartRepository(_db);
+            
 
         }
 
@@ -33,6 +38,10 @@ namespace OdinCMS.DataAccess.Repository
         public IProductRepository Product { get; private set; }
         public ICategoryRepository Category { get; private set; }
         public ICoverTypeRepository CoverType { get; private set; }
+
+        /* Order */
+        public IOrderHeaderRepository OrderHeader { get; private set; }
+        public IOrderDetailRepository OrderDetail { get; private set; }
 
         /* User / Company */
         public ICompanyRepository Company { get; private set; }
