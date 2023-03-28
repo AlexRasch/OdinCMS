@@ -5,9 +5,23 @@ html {
     scroll-behavior: smooth;
 }
 
+main p,
+main h1{
+    color: var( --bs-white);
+}
+
+main h1{
+    z-index: 100;
+    position:relative;
+}
+
 
 /* sm */
 @media (max-width: 576px) {
+
+    main {
+        min-height: 400px;
+    }
 
     header .container-fluid,
     section .container-fluid,
@@ -29,6 +43,10 @@ html {
 /* md */
 @media only screen and (max-width: 768px) and (min-width:577px) {
 
+    main {
+        min-height: 500px;
+    }
+
     header .container-fluid,
     section .container-fluid,
     .container-fluid,
@@ -43,6 +61,10 @@ html {
 
 /* lg */
 @media only screen and (max-width: 1200px) and (min-width: 769px) {
+
+    main {
+        min-height: 700px;
+    }
 
     header .container-fluid,
     section .container-fluid,
@@ -60,6 +82,10 @@ html {
 /* xl */
 @media only screen and (max-width: 1400px) and (min-width: 1200px) {
 
+    main {
+        min-height: 800px;
+    }
+
     header .container-fluid,
     section .container-fluid,
     .container-fluid,
@@ -74,6 +100,10 @@ html {
 
 /* xxl */
 @media only screen and (min-width: 1400px) {
+
+    main {
+        min-height:900px;
+    }
 
     header .container-fluid,
     section .container-fluid,

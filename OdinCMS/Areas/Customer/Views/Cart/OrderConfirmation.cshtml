@@ -1,3 +1,9 @@
 ﻿@model int
-
-<p>Order: @Model</p>
+@{
+    ViewData["Title"] = $"Order Confirmation: {Model}";
+}
+<div class="container-fluid">
+    <h1>Order Submitted Successfully</h1>
+    <p>Order id: @Model</p>
+    <p>Thank you for your order!</p>
+</div>
