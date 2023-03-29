@@ -7,7 +7,7 @@ html {
 
 main p,
 main h1{
-    color: var( --bs-white);
+    color: var(--bs-white);
 }
 
 main h1{
