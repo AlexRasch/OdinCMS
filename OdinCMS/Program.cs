@@ -29,11 +29,11 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
 
-
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 // Fake email
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
-// 
+
 builder.Services.AddRazorPages();
 
 // API keys
@@ -59,7 +59,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Stripe
+// Stripe API key
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:Secretkey").Get<string>();
 
 
