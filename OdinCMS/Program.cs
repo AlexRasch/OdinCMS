@@ -36,6 +36,15 @@ builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 builder.Services.AddRazorPages();
 
+#if DEBUG
+builder.Services.AddWebOptimizer(minifyJavaScript: false, minifyCss: false);
+#else
+builder.Services.AddWebOptimizer();
+#endif
+
+
+
+
 // API keys
 var config = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
@@ -55,6 +64,9 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseWebOptimizer();
+
 app.UseStaticFiles();
 
 app.UseRouting();
