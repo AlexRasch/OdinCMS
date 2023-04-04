@@ -42,7 +42,10 @@ builder.Services.AddWebOptimizer(minifyJavaScript: false, minifyCss: false);
 builder.Services.AddWebOptimizer();
 #endif
 
-
+builder.Services.AddWebOptimizer(pipeline =>
+{
+    pipeline.AddCssBundle("/css/theme.css", "css/*.css");
+});
 
 
 // API keys
@@ -64,16 +67,12 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseWebOptimizer();
-
 app.UseStaticFiles();
-
 app.UseRouting();
 
 // Stripe API key
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:Secretkey").Get<string>();
-
 
 // This need to be in this order
 app.UseAuthentication();
