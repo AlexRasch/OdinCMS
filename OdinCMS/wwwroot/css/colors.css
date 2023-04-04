@@ -22,6 +22,8 @@ header p,
 section h1,
 section h2,
 section p,
+thead tr th,
+tbody tr td,
 footer h3 {
     color: #fff;
 }
