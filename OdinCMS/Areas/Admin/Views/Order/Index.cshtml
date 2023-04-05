@@ -1,18 +1,35 @@
-﻿
-<div class="container-fluid">
-<table id="tblData" class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Total</th>
-            <th>Manage</th>
-        </tr>
-    </thead>
-</table>
+﻿<div class="container-fluid">
+
+    <div class="d-flex justify-content-between">
+        <h1 class="text-primary">Order list</h1>
+        <ul class="list-group list-group-horizontal-sm">
+            <a asp-controller="Order" asp-action="Index" asp-route-status="inprocess">
+            <li>Inprocess</li>
+            </a>
+            <a asp-controller="Order" asp-action="Index" asp-route-status="pending">
+            <li>Pending</li>
+            </a>
+            <a asp-controller="Order" asp-action="Index" asp-route-status="complete">
+            <li>Complete</li>
+            </a>
+            <a asp-controller="Order" asp-action="Index" asp-route-status="all">
+            <li>All</li>
+            </a>
+        </ul>
+    </div>
+    <table id="tblData" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Manage</th>
+            </tr>
+        </thead>
+    </table>
 </div>
 @section Scripts{
     <script src="~/js/order.js"></script>
