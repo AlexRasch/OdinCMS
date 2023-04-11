@@ -13,7 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 var startup = new Startup(builder.Configuration);
 startup.ConfigureServices(builder.Services, builder);
 
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(
@@ -37,8 +36,6 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Fake email
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
-
-
 // API keys
 var config = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
@@ -52,4 +49,3 @@ startup.Configure(app, builder.Environment);
 
 // Stripe API key
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:Secretkey").Get<string>();
-
