@@ -37,7 +37,7 @@ function loadDataTable(status) {
                 "render": function (data) {
                     return `
                     <div class="btn-group" role="group">
-                        <a href="/Admin/Order/Detail?orderId=${data}" class="btn btn-primary">Details</a>
+                        <a href="/Admin/Order/Details?orderId=${data}" class="btn btn-primary">Details</a>
                     </div>
                     `
                 },

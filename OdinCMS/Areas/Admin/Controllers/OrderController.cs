@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OdinCMS.DataAccess.Repository.IRepository;
 using OdinCMS.Models;
+using OdinCMS.Models.ViewModels;
 using OdinCMS.Utility;
 using System.Security.Claims;
 
@@ -12,6 +13,8 @@ namespace OdinCMS.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         public readonly IUnitOfWork _unitOfWork;
+        [BindProperty]
+        public OrderVM OrderVM { get; set; }
 
         public OrderController(IUnitOfWork unitOfWork)
         {
@@ -21,6 +24,16 @@ namespace OdinCMS.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Details(int orderId) 
+        {
+            OrderVM = new OrderVM()
+            {
+                OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == orderId, includeProperties:"ApplicationUser"),
+                OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderId == orderId, includeProperties: "Product"),
+            };
+            return View(OrderVM);
         }
 
 
