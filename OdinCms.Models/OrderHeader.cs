@@ -31,9 +31,10 @@ namespace OdinCMS.Models
         public string? PaymentStatus { get; set; }
 
         public string? Carrier { get; set; }
+		public string? TrackingNumber { get; set; }
 
-        // Payment
-        public DateTime PaymentDate { get; set; }
+		// Payment
+		public DateTime PaymentDate { get; set; }
 
         public DateTime PaymentDueDate { get; set; }
 

@@ -26,16 +26,68 @@ namespace OdinCMS.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult Details(int orderId) 
-        {
-            OrderVM = new OrderVM()
-            {
-                OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == orderId, includeProperties:"ApplicationUser"),
-                OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderId == orderId, includeProperties: "Product"),
-            };
-            return View(OrderVM);
-        }
+        [HttpPost, ValidateAntiForgeryToken]
+		public IActionResult UpdateOrderDetail()
+		{
+			var orderHeaderFromDb = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
+            orderHeaderFromDb.Name = OrderVM.OrderHeader.Name;
+            orderHeaderFromDb.PhoneNumber = OrderVM.OrderHeader.PhoneNumber;
+            orderHeaderFromDb.StreetAddress = OrderVM.OrderHeader.StreetAddress;
+            orderHeaderFromDb.City = OrderVM.OrderHeader.City;
+            orderHeaderFromDb.Region = OrderVM.OrderHeader.Region;
+            orderHeaderFromDb.PostalCode = orderHeaderFromDb.PostalCode;
 
+            if(OrderVM.OrderHeader.Carrier != null)
+                orderHeaderFromDb.Carrier = OrderVM.OrderHeader.Carrier;
+
+            if(OrderVM.OrderHeader.TrackingNumber != null)
+                orderHeaderFromDb.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
+
+            // Save 
+            _unitOfWork.OrderHeader.Update(orderHeaderFromDb);
+            _unitOfWork.Save();
+
+            TempData["Success"] = "Order details updated successfully";
+            return RedirectToAction("Details", "Order", new { orderId = orderHeaderFromDb.Id });
+		}
+
+		[HttpPost, ValidateAntiForgeryToken]
+		public IActionResult StartProcessing()
+		{
+            _unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, SD.Order_Processing);
+			_unitOfWork.Save();
+
+			TempData["Success"] = "Order status updated successfully";
+			return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
+		}
+
+		[HttpPost, ValidateAntiForgeryToken]
+		public IActionResult ShipOrder()
+		{
+			var orderHeaderFromDb = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
+
+            orderHeaderFromDb.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
+            orderHeaderFromDb.Carrier = OrderVM.OrderHeader.Carrier;
+            orderHeaderFromDb.OrderStatus = SD.Order_Shipped;
+            orderHeaderFromDb.ShippingDate = DateTime.Now;
+
+            _unitOfWork.OrderHeader.Update(orderHeaderFromDb);
+			_unitOfWork.Save();
+
+			TempData["Success"] = "Order shipped successfully";
+			return RedirectToAction("Details", "Order", new { orderId = OrderVM.OrderHeader.Id });
+		}
+
+		public IActionResult Details(int orderId) 
+        {
+            
+			OrderVM = new OrderVM()
+			{
+				OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == orderId, includeProperties: "ApplicationUser"),
+				OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderId == orderId, includeProperties: "Product"),
+			};
+			return View(OrderVM);
+        }
 
         #region API 
         [HttpGet]
