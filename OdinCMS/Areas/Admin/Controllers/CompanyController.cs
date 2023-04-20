@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OdinCMS.DataAccess.Data;
 using OdinCMS.DataAccess.Repository.IRepository;
 using OdinCMS.Models;
 using OdinCMS.Models.ViewModels;
+using OdinCMS.Utility;
 using System.Collections.Generic;
 
 namespace OdinCMS.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CompanyController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
