@@ -1,0 +1,13 @@
+﻿@model int
+@{
+    ViewData["Title"] = $"Payment Confirmation: {Model}";
+}
+<div class="container-fluid">
+    <h1>Payment Successfully</h1>
+    <p>Order id: @Model</p>
+    <p>Thank you for your order!</p>
+    <a asp-area="Admin" asp-controller="Order" asp-action="Details" asp-route-orderId="@Model"
+    class="btn btn-primary">
+        Back to order details
+    </a>
+</div>

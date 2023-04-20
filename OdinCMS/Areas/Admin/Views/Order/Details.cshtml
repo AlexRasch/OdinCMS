@@ -249,6 +249,10 @@
 									<input type="submit" onclick="return validateInput()"
 								   asp-action="ShipOrder" class="btn btn-primary form-control my-1" value="Ship Order" />
 								}
+								@if(Model.OrderHeader.PaymentStatus == SD.Payment_ApprovedForDelayedPayment && Model.OrderHeader.OrderStatus == SD.Order_Shipped)
+								{
+									<input type="submit" class="btn btn-sucess form-control my-1" value="Pay now" />
+								}
 
 								@if (Model.OrderHeader.OrderStatus != SD.Order_Refunded &&
 										Model.OrderHeader.OrderStatus != SD.Order_Cancelled &&

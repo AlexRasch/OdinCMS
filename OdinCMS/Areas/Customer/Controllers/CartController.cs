@@ -183,12 +183,11 @@ namespace OdinCMS.Areas.Customer.Controllers
                 Session session = service.Get(orderHeader.SessionId);
                 if (session.PaymentStatus.ToLower() == "paid")
                 {
-                    //_unitOfWork.OrderHeader.UpdateStripePaymentId(id, orderHeader.SessionId, session.PaymentIntentId);
+                    _unitOfWork.OrderHeader.UpdateStripePaymentId(id, orderHeader.SessionId, session.PaymentIntentId);
                     _unitOfWork.OrderHeader.UpdateStatus(id, SD.Order_Approved, SD.Payment_Approved);
                     _unitOfWork.Save();
                 }
             }
-            
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart
                 .GetAll(x => x.ApplicationUserId == orderHeader.ApplicationUserId)
                 .ToList();
