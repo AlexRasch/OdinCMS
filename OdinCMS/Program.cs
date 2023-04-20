@@ -7,8 +7,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using OdinCMS.Utility;
 using Stripe;
 using Microsoft.Extensions.DependencyInjection;
+using OdinCMS;
 
 var builder = WebApplication.CreateBuilder(args);
+var startup = new Startup(builder.Configuration);
+startup.ConfigureServices(builder.Services, builder);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -29,12 +32,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
 
-
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Fake email
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
-// 
-builder.Services.AddRazorPages();
 
 // API keys
 var config = new ConfigurationBuilder()
@@ -45,31 +45,7 @@ var config = new ConfigurationBuilder()
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 var app = builder.Build();
+startup.Configure(app, builder.Environment);
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-// Stripe
+// Stripe API key
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:Secretkey").Get<string>();
-
-
-// This need to be in this order
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapRazorPages();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
-
-app.Run();

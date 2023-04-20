@@ -22,7 +22,6 @@
 </head>
 <body>
     <header class="bg-dark">
-        <div class="circle"></div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index">OdinCMS</a>
@@ -53,7 +52,7 @@
             </div>
         </nav>
     </header>
-    <main role="main" class="bg-dark">
+    <main role="main" class="">
         @RenderBody()
     </main>
 
@@ -67,7 +66,5 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <partial name="_Notification" />
-    <partial name="_Footer" />
-
 </body>
 </html>
