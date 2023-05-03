@@ -33,6 +33,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 // Fake email
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
